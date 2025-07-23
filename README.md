@@ -1,46 +1,41 @@
 # AppsCyclone NQA Collection (ACNQA)
 
 ## Overview
-AppsCyclone NQA Collection is an ERC-721 NFT collection deployed on the Ethereum Sepolia testnet. The collection features unique digital collectibles with a maximum supply of 10,000 tokens and a limit of 5 tokens per address.
+AppsCyclone NQA Collection is an ERC-721 NFT collection deployed on the Ethereum Sepolia testnet featuring unique digital collectibles. The collection has a maximum supply of 10,000 tokens with a limit of 5 tokens per wallet address.
 
-## Contract Details
-- **Contract Address**: [0xAD1cC8ab9b51dDe4a3B23C7dDCB53ACCe63C6413](https://sepolia.etherscan.io/address/0xAD1cC8ab9b51dDe4a3B23C7dDCB53ACCe63C6413)
-- **Token Standard**: ERC-721
-- **Token Symbol**: ACNQA
+## Contract Information
+- **Address**: [0x7dd465D9f639012D11E04f39fd236962B1353D39](https://sepolia.etherscan.io/address/0x7dd465D9f639012D11E04f39fd236962B1353D39)
+- **Standard**: ERC-721
+- **Symbol**: ACNQA
 - **Max Supply**: 10,000 NFTs
-- **Tokens Per Address**: Maximum 5 tokens
+- **Mint Limit**: 5 tokens per address
 
-## Features
-- **Whitelist System**: Only whitelisted addresses can mint tokens
-- **Owner Controls**: Contract owner can add/remove addresses from whitelist
-- **Customizable Parameters**: Max supply and tokens per address can be adjusted by owner
-- **Withdrawal Functions**: Contract includes functions to withdraw ETH and ERC20 tokens
+## Key Features
+- Whitelist-only minting system
+- Owner-controlled whitelist management
+- Adjustable supply and minting limits
+- ETH and ERC20 token withdrawal functionality
 
-## Minted Tokens
-Currently, 3 tokens have been minted:
-
+## Collection Status
+Currently minted tokens:
 1. **Token #1**: "Dave Starbelly" - A friendly OpenSea Creature that enjoys long swims in the ocean
 2. **Token #2**: "Psyduck" - Friendly Pokemon Creature that enjoys long swims in the ocean
-3. **Token #3**: "Pikachu - Deadpool Edition" - Not only a friendly Pokemon creature, but also immorting to kill u
+3. **Token #3**: "Pikachu - Deadpool Edition" - Not only a friendly Pokemon creature, but also immortal and deadly
 
-## Metadata
-All token metadata is hosted on Pinata IPFS service, ensuring decentralized and permanent storage for the NFT attributes and images.
+## Technical Details
+- **Metadata Storage**: Pinata IPFS service
+- **Smart Contract**: Solidity ^0.8.0
+- **Dependencies**: OpenZeppelin ERC721 implementation
 
-## Interacting with the Contract
-You can interact with the contract directly on [Sepolia Etherscan](https://sepolia.etherscan.io/address/0xAD1cC8ab9b51dDe4a3B23C7dDCB53ACCe63C6413).
+## How to Interact
 
-### For Users
-- Check if you're whitelisted by calling the `whitelist` function with your address
-- If whitelisted, you can mint NFTs using the `mintNFT` function (up to 5 per address)
+### For Collectors
+- Check whitelist status: Call `whitelist` function with your address
+- Mint NFTs: Use `mintNFT` function (if whitelisted, max 5 per address)
 
 ### For Contract Owner
-- Add addresses to whitelist using `addToWhitelist`
-- Remove addresses from whitelist using `removeFromWhitelist`
-- Adjust max supply with `setMaxSupply`
-- Change tokens per address limit with `setMaxPerAddress`
-- Withdraw funds using `withdraw` (ETH) or `withdrawToken` (ERC20)
+- Whitelist management: `addToWhitelist` and `removeFromWhitelist`
+- Collection parameters: `setMaxSupply` and `setMaxPerAddress`
+- Fund management: `withdraw` (ETH) and `withdrawToken` (ERC20)
 
-## Development
-This project uses:
-- Solidity ^0.8.0
-- OpenZeppelin contracts for ERC721 implementation
+You can interact with the contract directly on [Sepolia Etherscan](https://sepolia.etherscan.io/address/0x7dd465D9f639012D11E04f39fd236962B1353D39).
