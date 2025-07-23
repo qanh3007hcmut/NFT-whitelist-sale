@@ -14,6 +14,7 @@ async function main() {
   const deployments = JSON.parse(fs.readFileSync(deploymentsPath, "utf8"));
 
   const NFTAddress = deployments["MyNFTModule#MyNFT"];
+  const WhitelistSaleAddress = deployments["WhitelistSaleModule#WhiteListSale"];
   const baseURI = process.env.BASE_URI;
   const merkleRoot = loadMerkleRoot("data/proofs.json");
   if (!baseURI) {throw new Error("BASE_URI environment variable is not set.");}
@@ -27,7 +28,7 @@ async function main() {
   try {
     await run("verify:verify", {
       address: NFTAddress,
-      constructorArguments: [merkleRoot, baseURI],
+      constructorArguments: [baseURI],
     });
     console.log("NFT verified successfully");
   } catch (error: any) {
@@ -35,6 +36,20 @@ async function main() {
       console.log("NFT already verified");
     } else {
       console.error("Error verifying NFT:", error);
+    }
+  }
+
+  try {
+    await run("verify:verify", {
+      address: WhitelistSaleAddress,
+      constructorArguments: [NFTAddress, merkleRoot],
+    });
+    console.log("Whitelist verified successfully");
+  } catch (error: any) {
+    if (error.message.includes("Already Verified")) {
+      console.log("Whitelist already verified");
+    } else {
+      console.error("Error verifying Whitelist:", error);
     }
   }
 

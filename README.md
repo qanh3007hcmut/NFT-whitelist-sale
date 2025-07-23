@@ -1,41 +1,51 @@
-# AppsCyclone NQA Collection (ACNQA)
+# Pokemon NFT Collection (PKM)
 
 ## Overview
-AppsCyclone NQA Collection is an ERC-721 NFT collection deployed on the Ethereum Sepolia testnet featuring unique digital collectibles. The collection has a maximum supply of 10,000 tokens with a limit of 5 tokens per wallet address.
+A unique ERC-721 NFT collection on the Ethereum Sepolia testnet featuring Pokemon-themed digital collectibles. This exclusive collection uses a Merkle tree-based whitelist system with a configurable supply cap (default: 1000 tokens) and a per-wallet minting limit (default: 5 NFTs).
 
-## Contract Information
-- **Address**: [0x7dd465D9f639012D11E04f39fd236962B1353D39](https://sepolia.etherscan.io/address/0x7dd465D9f639012D11E04f39fd236962B1353D39)
-- **Standard**: ERC-721
-- **Symbol**: ACNQA
-- **Max Supply**: 10,000 NFTs
-- **Mint Limit**: 5 tokens per address
+## Contract Details
+- **NFT Contract**: [0x76aA01653860d06bBE110E8A64085Ca2330d1924](https://sepolia.etherscan.io/address/0x76aA01653860d06bBE110E8A64085Ca2330d1924)
+- **Whitelist Sale Contract**: [0x4E9463F95263Cbd998c2b05d87970404A267E411](https://sepolia.etherscan.io/address/0x4E9463F95263Cbd998c2b05d87970404A267E411)
+- **Token Standard**: ERC-721
+- **Symbol**: PKM
+- **Name**: Pokemon
+- **Default Max Supply**: 1000 NFTs (configurable)
+- **Default Minting Limit**: 5 NFTs per wallet (configurable)
 
-## Key Features
-- Whitelist-only minting system
-- Owner-controlled whitelist management
-- Adjustable supply and minting limits
-- ETH and ERC20 token withdrawal functionality
+## Core Features
+- Merkle tree-based whitelist verification
+- Configurable supply and per-wallet minting limits
+- Secure fund withdrawal mechanisms (ETH & ERC20)
+- Customizable base token URI
 
-## Collection Status
-Currently minted tokens:
+## Current Collection
+Minted tokens:
 1. **Token #1**: "Dave Starbelly" - A friendly OpenSea Creature that enjoys long swims in the ocean
 2. **Token #2**: "Psyduck" - Friendly Pokemon Creature that enjoys long swims in the ocean
 3. **Token #3**: "Pikachu - Deadpool Edition" - Not only a friendly Pokemon creature, but also immortal and deadly
 
-## Technical Details
-- **Metadata Storage**: Pinata IPFS service
-- **Smart Contract**: Solidity ^0.8.0
-- **Dependencies**: OpenZeppelin ERC721 implementation
+## Technical Specifications
+- **Metadata**: JSON files stored at configurable base URI
+- **Development**: Solidity ^0.8.28
+- **Framework**: OpenZeppelin ERC721, Ownable, SafeERC20
+- **Whitelist Verification**: Merkle Proof verification
 
-## How to Interact
+## Usage Guide
 
-### For Collectors
-- Check whitelist status: Call `whitelist` function with your address
-- Mint NFTs: Use `mintNFT` function (if whitelisted, max 5 per address)
+### Collectors
+- **Mint NFTs**: Call `mintNFT(bytes32[] calldata proofs)` with your Merkle proof if whitelisted (maximum 5 per address by default)
+- **Check Collection Size**: Call `_getTotalSupply()` to see how many NFTs have been minted
 
-### For Contract Owner
-- Whitelist management: `addToWhitelist` and `removeFromWhitelist`
-- Collection parameters: `setMaxSupply` and `setMaxPerAddress`
-- Fund management: `withdraw` (ETH) and `withdrawToken` (ERC20)
+### Contract Owner
+- **Whitelist Management**: Update the Merkle root with `setMerkleRoot(bytes32 newMerkleRoot)`
+- **Collection Parameters**: 
+  - `setMaxSupply(uint256 maxSupply)` to change the maximum collection size
+  - `setMaxMintPerAddresss(uint256 newLimit)` to adjust per-wallet minting limit
+- **NFT Contract Management**:
+  - `setBaseTokenURI(string memory baseURI)` to update the metadata location
+  - `addMinter(address _minter)` to authorize additional minting addresses
+- **Treasury Management**: 
+  - `withdraw()` for ETH
+  - `withdrawToken(address token)` for ERC20 tokens
 
-You can interact with the contract directly on [Sepolia Etherscan](https://sepolia.etherscan.io/address/0x7dd465D9f639012D11E04f39fd236962B1353D39).
+Interact with the contract on [Sepolia Etherscan](https://sepolia.etherscan.io/address/0x4E9463F95263Cbd998c2b05d87970404A267E411).

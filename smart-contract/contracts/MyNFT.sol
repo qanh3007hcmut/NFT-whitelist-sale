@@ -1,58 +1,44 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-import "./BaseStorage.sol";
-import "./Accessible.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract MyNFT is ERC721, BaseStorage, Accessible {
-    using SafeERC20 for IERC20;
+contract MyNFT is ERC721, Ownable {
+    uint256 public nextTokenId = 1;
+    string internal baseTokenURI;
+    mapping(address => bool) minter;
 
     constructor(
-        bytes32 _root,
-        string memory baseURI
+        string memory _baseTokenURI
     ) ERC721("Pokemon", "PKM") Ownable(msg.sender) {
-        setMerkleRoot(_root);
-        setBaseTokenURI(baseURI);
+        baseTokenURI = _baseTokenURI;
+        minter[msg.sender] = true;
     }
 
-    function mintNFT(
-        bytes32[] calldata proofs
-    ) external onlyWhitelist(proofs) withinLimit {
-        require(_nextTokenId <= _maxSupply, "Max supply reached");
-        _mintPerAddr[msg.sender] += 1;
-        _incrementTokenId();
-        _safeMint(msg.sender, _nextTokenId - 1);
-        emit TokenMinted(msg.sender, _nextTokenId - 1);
+    function mint(address to) external {
+        require(minter[msg.sender], "Unauthorized access");
+        _safeMint(to, nextTokenId);
+        nextTokenId++;
+    }
+
+    function _baseURI() internal view override returns (string memory) {
+        return baseTokenURI;
     }
 
     function tokenURI(
         uint256 tokenId
-    ) public view override(ERC721) returns (string memory) {
-        require(tokenId < _nextTokenId, "TokenId does not exist");
-        return
-            string(
-                abi.encodePacked(_baseTokenURI, Strings.toString(tokenId), ".json")
-            );
+    ) public view override returns (string memory) {
+        return string.concat(super.tokenURI(tokenId), ".json");
     }
 
-    function withdraw() external onlyOwner {
-        require(address(this).balance > 0, "No balance to withdraw");
-        (bool success, ) = msg.sender.call{value: address(this).balance}("");
-        require(success, "Transfer failed");
+    function setBaseTokenURI(string memory baseURI) external onlyOwner {
+        baseTokenURI = baseURI;
     }
 
-    function withdrawToken(address token) external onlyOwner {
-        uint256 balance = IERC20(token).balanceOf(address(this));
-        require(balance > 0, "No token balance to withdraw");
-        IERC20(token).safeTransfer(msg.sender, balance);
+    function addMinter(address _minter) external onlyOwner {
+        minter[_minter] = true;
     }
-
-    receive() external payable {}
-
-    fallback() external payable {}
 }
