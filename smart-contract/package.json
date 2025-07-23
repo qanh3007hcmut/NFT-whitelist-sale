@@ -1,9 +1,10 @@
 {
   "name": "capstone-project",
   "scripts": {
-    "deploy": "npx hardhat ignition deploy ignition/modules/acnqa.ts --network sepolia",
-    "verify": "hardhat verify --network sepolia",
-    "self:mint": "npx hardhat run scripts/mint-nft.ts --network sepolia"
+    "deploy": "npx hardhat ignition deploy ignition/modules/MyNFT.ts --network sepolia",
+    "verify": "npx hardhat run scripts/verify.ts --network sepolia",
+    "self:mint": "npx hardhat run scripts/mint-nft.ts --network sepolia",
+    "merkle": "npx ts-node scripts/merkletree-gen.ts"
   },
   "dependencies": {
     "@nomicfoundation/hardhat-ignition": "^0.15.13",
@@ -13,6 +14,7 @@
     "dotenv": "^17.2.0",
     "ethers": "^6.15.0",
     "hardhat": "^2.26.0",
-    "hardhat-deploy": "^1.0.4"
+    "hardhat-deploy": "^1.0.4",
+    "merkletreejs": "^0.5.2"
   }
 }
