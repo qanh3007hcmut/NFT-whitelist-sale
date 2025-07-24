@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import { MyNFT, TestToken, WhiteListSale } from "../typechain-types";
+import { MyNFT, TXNToken, WhiteListSale } from "../typechain-types";
 import { SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers";
 import { MerkleTree } from "merkletreejs";
 import { buildMerkleTree, getProof } from "../scripts";
@@ -16,7 +16,7 @@ describe("MyNFT", function () {
     user3: SignerWithAddress,
     user4: SignerWithAddress;
   // Global Variables
-  let token: TestToken;
+  let token: TXNToken;
   let tree: MerkleTree;
   let whitelist: any[];
   let root: string;
@@ -25,7 +25,7 @@ describe("MyNFT", function () {
 
   beforeEach(async function () {
     [owner, user1, user2, user3, user4] = await ethers.getSigners();
-    const TestToken = await ethers.getContractFactory("TestToken", user1);
+    const TestToken = await ethers.getContractFactory("TXNToken", user1);
     token = await TestToken.deploy();
 
     whitelist = [
