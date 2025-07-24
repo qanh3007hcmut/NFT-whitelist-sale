@@ -4,6 +4,7 @@ import { MyNFT, TXNToken, WhiteListSale } from "../typechain-types";
 import { SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers";
 import { MerkleTree } from "merkletreejs";
 import { buildMerkleTree, getProof } from "../scripts";
+import { keccak256, toUtf8Bytes } from "ethers";
 
 describe("MyNFT", function () {
   // Contract
@@ -43,7 +44,7 @@ describe("MyNFT", function () {
     const WhiteListSaleFactory = await ethers.getContractFactory("WhiteListSale");
     whitelistSale = await WhiteListSaleFactory.deploy(myNFT.getAddress(), root);
 
-    await myNFT.addMinter(whitelistSale.getAddress());
+    await myNFT.grantRole(keccak256(toUtf8Bytes("MINTER_ROLE")), whitelistSale.getAddress());
   });
 
   it("Should deploy with correct owner", async function () {

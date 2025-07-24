@@ -1,6 +1,6 @@
 import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 import MyNFTModule from "./MyNFT";
-
+import { keccak256, toUtf8Bytes } from "ethers";
 import { loadMerkleRoot, run_merkle } from "../../scripts/utils/";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -20,7 +20,7 @@ const WhitelistSaleModule = buildModule("WhitelistSaleModule", (m) => {
     from: deployer,
   });
 
-  m.call(MyNFT, "addMinter", [WhitelistSale], {
+  m.call(MyNFT, "grantRole", [keccak256(toUtf8Bytes("MINTER_ROLE")), WhitelistSale], {
     from: deployer,
   });
   return { WhitelistSale };
